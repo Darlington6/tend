@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@expo/vector-icons": "^15.0.2",
     "expo": "~57.0.20",
     "expo-constants": "~57.0.17",
+    "expo-font": "~57.0.3",
     "expo-haptics": "~57.0.2",
     "expo-linking": "~57.0.9",
     "expo-notifications": "~57.0.17",
@@ -21,14 +23,22 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@types/react": "~19.2.2",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~57.0.2",
+    "husky": "^9.1.7",
     "typescript": "~6.0.3"
   },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "lint": "expo lint",
+    "prepare": "husky"
   },
   "private": true
 }
