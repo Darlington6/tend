@@ -28,8 +28,8 @@ type RitualsState = {
     db: SQLiteDatabase,
     input: { name: string; icon: RitualIconName; color: string; time_of_day: TimeOfDay }
   ) => Promise<void>;
-  completeToday: (db: SQLiteDatabase, ritualId: number) => Promise<void>;
-  removeRitual: (db: SQLiteDatabase, ritualId: number) => Promise<void>;
+  completeToday: (db: SQLiteDatabase, ritualId: string) => Promise<void>;
+  removeRitual: (db: SQLiteDatabase, ritualId: string) => Promise<void>;
 };
 
 export const useRitualsStore = create<RitualsState>((set, get) => ({
@@ -43,7 +43,7 @@ export const useRitualsStore = create<RitualsState>((set, get) => ({
       getAllCompletionsSince(db, addDays(todayIsoDate(), -STREAK_WINDOW_DAYS)),
     ]);
 
-    const completionsByRitual = new Map<number, string[]>();
+    const completionsByRitual = new Map<string, string[]>();
     for (const completion of completions) {
       const dates = completionsByRitual.get(completion.ritual_id) ?? [];
       dates.push(completion.completed_at);
