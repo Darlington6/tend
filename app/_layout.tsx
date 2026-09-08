@@ -4,11 +4,13 @@ import { StatusBar } from 'expo-status-bar';
 import { migrateDbIfNeeded } from '../lib/db';
 import { colors } from '../constants/theme';
 import { SyncManager } from '../components/SyncManager';
+import { PurchasesManager } from '../components/PurchasesManager';
 
 export default function RootLayout() {
   return (
     <SQLiteProvider databaseName="tend-v2.db" onInit={migrateDbIfNeeded}>
       <SyncManager />
+      <PurchasesManager />
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
