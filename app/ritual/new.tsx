@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
+import RevenueCatUI, { PAYWALL_RESULT } from 'react-native-purchases-ui';
 import {
   colors,
   FREE_RITUAL_LIMIT,
@@ -12,7 +13,9 @@ import {
   spacing,
   typography,
 } from '../../constants/theme';
+import { PREMIUM_ENTITLEMENT_ID } from '../../constants/revenuecat';
 import { useRitualsStore } from '../../lib/store';
+import { useEntitlementsStore } from '../../lib/entitlements-store';
 import type { TimeOfDay } from '../../lib/db';
 
 const TIME_OPTIONS: { value: TimeOfDay; label: string }[] = [
@@ -25,14 +28,16 @@ export default function NewRitualScreen() {
   const db = useSQLiteContext();
   const router = useRouter();
   const { rituals, addRitual } = useRitualsStore();
+  const isPremium = useEntitlementsStore((state) => state.isPremium);
 
   const [name, setName] = useState('');
   const [icon, setIcon] = useState(RITUAL_ICONS[0]);
   const [color, setColor] = useState(RITUAL_COLORS[0]);
   const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('anytime');
   const [saving, setSaving] = useState(false);
+  const [presentingPaywall, setPresentingPaywall] = useState(false);
 
-  const atFreeLimit = rituals.length >= FREE_RITUAL_LIMIT;
+  const atFreeLimit = !isPremium && rituals.length >= FREE_RITUAL_LIMIT;
 
   const handleSave = async () => {
     if (!name.trim() || saving) return;
@@ -40,6 +45,20 @@ export default function NewRitualScreen() {
     await addRitual(db, { name: name.trim(), icon, color, time_of_day: timeOfDay });
     setSaving(false);
     router.back();
+  };
+
+  const handleUpgrade = async () => {
+    setPresentingPaywall(true);
+    try {
+      const result = await RevenueCatUI.presentPaywallIfNeeded({
+        requiredEntitlementIdentifier: PREMIUM_ENTITLEMENT_ID,
+      });
+      if (result === PAYWALL_RESULT.ERROR) {
+        console.warn('Paywall failed to present');
+      }
+    } finally {
+      setPresentingPaywall(false);
+    }
   };
 
   if (atFreeLimit) {
@@ -54,8 +73,16 @@ export default function NewRitualScreen() {
         <Text style={typography.heading}>You&rsquo;ve reached the free limit</Text>
         <Text style={[typography.caption, styles.upgradeBody]}>
           Tend+ unlocks unlimited rituals, deeper insights, and custom themes.
-          {'\n\n'}(Upgrade flow coming soon.)
         </Text>
+        <Pressable
+          style={[styles.saveButton, styles.upgradeButton, presentingPaywall && styles.saveButtonDisabled]}
+          onPress={handleUpgrade}
+          disabled={presentingPaywall}
+        >
+          <Text style={styles.saveButtonText}>
+            {presentingPaywall ? 'Loading...' : 'See Tend+'}
+          </Text>
+        </Pressable>
       </View>
     );
   }
@@ -226,5 +253,9 @@ const styles = StyleSheet.create({
   upgradeBody: {
     textAlign: 'center',
     marginTop: spacing.sm,
+  },
+  upgradeButton: {
+    marginTop: spacing.xl,
+    paddingHorizontal: spacing.xl,
   },
 });
