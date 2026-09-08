@@ -1,4 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import Animated, {
   useAnimatedStyle,
@@ -44,7 +45,7 @@ export function RitualCard({ ritual, onToggle, onPress }: Props) {
       <Pressable style={styles.body} onPress={onPress}>
         <View style={[styles.iconWrap, { borderColor: ritual.color }]}>
           <Animated.View style={[styles.glow, glowStyle]} />
-          <Text style={styles.icon}>{ritual.icon}</Text>
+          <Ionicons name={ritual.icon} size={22} color={ritual.color} />
         </View>
         <View style={styles.textWrap}>
           <Text style={typography.body}>{ritual.name}</Text>
@@ -64,9 +65,9 @@ export function RitualCard({ ritual, onToggle, onPress }: Props) {
           },
         ]}
       >
-        <Text style={{ color: ritual.completedToday ? '#fff' : ritual.color, fontSize: 18 }}>
-          {ritual.completedToday ? '✓' : ''}
-        </Text>
+        {ritual.completedToday ? (
+          <Ionicons name="checkmark" size={18} color="#fff" />
+        ) : null}
       </Pressable>
     </Animated.View>
   );
@@ -103,9 +104,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: radii.pill,
-  },
-  icon: {
-    fontSize: 22,
   },
   textWrap: {
     flexShrink: 1,

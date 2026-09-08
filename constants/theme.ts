@@ -44,3 +44,32 @@ export const RITUAL_COLORS = [
   '#8C5B7E',
   '#6B7A4A',
 ];
+
+export type RitualIconName =
+  | 'flame-outline'
+  | 'sunny-outline'
+  | 'moon-outline'
+  | 'water-outline'
+  | 'body-outline'
+  | 'book-outline'
+  | 'walk-outline'
+  | 'create-outline'
+  | 'nutrition-outline'
+  | 'sparkles-outline'
+  | 'flag-outline'
+  | 'leaf-outline';
+
+export const RITUAL_ICONS: RitualIconName[] = [
+  'flame-outline',
+  'sunny-outline',
+  'moon-outline',
+  'water-outline',
+  'body-outline',
+  'book-outline',
+  'walk-outline',
+  'create-outline',
+  'nutrition-outline',
+  'sparkles-outline',
+  'flag-outline',
+  'leaf-outline',
+];

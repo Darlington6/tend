@@ -11,6 +11,7 @@ import {
 } from './db';
 import { addDays, todayIsoDate } from './date';
 import { computeStreak } from './streak';
+import type { RitualIconName } from '../constants/theme';
 
 const STREAK_WINDOW_DAYS = 120;
 
@@ -25,7 +26,7 @@ type RitualsState = {
   loadAll: (db: SQLiteDatabase) => Promise<void>;
   addRitual: (
     db: SQLiteDatabase,
-    input: { name: string; icon: string; color: string; time_of_day: TimeOfDay }
+    input: { name: string; icon: RitualIconName; color: string; time_of_day: TimeOfDay }
   ) => Promise<void>;
   completeToday: (db: SQLiteDatabase, ritualId: number) => Promise<void>;
   removeRitual: (db: SQLiteDatabase, ritualId: number) => Promise<void>;
