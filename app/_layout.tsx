@@ -3,10 +3,12 @@ import { SQLiteProvider } from 'expo-sqlite';
 import { StatusBar } from 'expo-status-bar';
 import { migrateDbIfNeeded } from '../lib/db';
 import { colors } from '../constants/theme';
+import { SyncManager } from '../components/SyncManager';
 
 export default function RootLayout() {
   return (
-    <SQLiteProvider databaseName="tend.db" onInit={migrateDbIfNeeded}>
+    <SQLiteProvider databaseName="tend-v2.db" onInit={migrateDbIfNeeded}>
+      <SyncManager />
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -22,6 +24,7 @@ export default function RootLayout() {
           options={{ title: 'New Ritual', presentation: 'modal' }}
         />
         <Stack.Screen name="ritual/[id]" options={{ title: 'Ritual' }} />
+        <Stack.Screen name="settings" options={{ title: 'Settings' }} />
       </Stack>
     </SQLiteProvider>
   );

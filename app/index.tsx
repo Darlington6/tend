@@ -28,8 +28,19 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.header}>
-        <Text style={typography.caption}>{todayLabel}</Text>
-        <Text style={typography.title}>Your rituals</Text>
+        <View style={styles.headerRow}>
+          <View>
+            <Text style={typography.caption}>{todayLabel}</Text>
+            <Text style={typography.title}>Your rituals</Text>
+          </View>
+          <Pressable
+            hitSlop={12}
+            onPress={() => router.push('/settings')}
+            style={styles.settingsButton}
+          >
+            <Ionicons name="settings-outline" size={22} color={colors.textMuted} />
+          </Pressable>
+        </View>
       </View>
 
       {!loading && rituals.length === 0 ? (
@@ -76,6 +87,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.sm,
     paddingBottom: spacing.md,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  settingsButton: {
+    padding: spacing.xs,
   },
   list: {
     paddingHorizontal: spacing.lg,
