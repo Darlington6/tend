@@ -44,3 +44,7 @@ npm run start      # Metro + Expo Go / dev client
 npm run ios         # opens iOS Simulator (requires Xcode)
 npm run android     # opens Android emulator (requires Android Studio)
 ```
+
+## Backend (Supabase)
+
+Copy `.env.example` to `.env` and fill in your Supabase project's URL/anon key (Project Settings > API in the Supabase dashboard). Schema lives in `supabase/migrations/`; run `npx supabase db push` (linked project) or `npx supabase start` (local Docker-based dev) to apply it.
