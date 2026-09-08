@@ -39,6 +39,16 @@ eas build --profile development --platform android   # or --platform ios
 
 Then run `npm start` and open the app from that installed dev client instead of Expo Go.
 
+## Builds
+
+`.eas/workflows/build-preview.yml` builds an installable Android preview APK on demand:
+
+```bash
+npx eas-cli@latest workflow:run build-preview.yml
+```
+
+Not wired to run automatically yet, free EAS build minutes are limited and there is no release cadence to automate against yet. An iOS build job will be added once there is an Apple Developer account to sign with.
+
 ## Project structure
 
 ```

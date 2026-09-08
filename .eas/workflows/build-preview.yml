@@ -1,0 +1,13 @@
+name: Build Preview
+
+# Manual for now (run with: npx eas-cli@latest workflow:run build-preview.yml).
+# Not wired to run on every push yet, the free EAS build minutes are limited
+# and we are not at a release cadence yet. Add an "on: push" trigger once
+# there is a reason to build automatically on every commit to main.
+
+jobs:
+  build_android_preview:
+    type: build
+    params:
+      platform: android
+      profile: preview
