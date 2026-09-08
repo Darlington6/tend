@@ -32,6 +32,8 @@ yarn-error.*
 
 # local tool config, not meant to be shared
 .claude/
+CLAUDE.md
+AGENTS.md
 
 # local env files
 .env
