@@ -51,13 +51,22 @@ export default function HomeScreen() {
             <Text style={typography.caption}>{todayLabel}</Text>
             <Text style={typography.title}>Your rituals</Text>
           </View>
-          <Pressable
-            hitSlop={12}
-            onPress={() => router.push('/settings')}
-            style={styles.settingsButton}
-          >
-            <Ionicons name="settings-outline" size={22} color={colors.textMuted} />
-          </Pressable>
+          <View style={styles.headerActions}>
+            <Pressable
+              hitSlop={12}
+              onPress={() => router.push('/insights')}
+              style={styles.settingsButton}
+            >
+              <Ionicons name="stats-chart-outline" size={22} color={colors.textMuted} />
+            </Pressable>
+            <Pressable
+              hitSlop={12}
+              onPress={() => router.push('/settings')}
+              style={styles.settingsButton}
+            >
+              <Ionicons name="settings-outline" size={22} color={colors.textMuted} />
+            </Pressable>
+          </View>
         </View>
       </View>
 
@@ -110,6 +119,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    gap: spacing.xs,
   },
   settingsButton: {
     padding: spacing.xs,

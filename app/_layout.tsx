@@ -28,6 +28,7 @@ export default function RootLayout() {
         />
         <Stack.Screen name="ritual/[id]" options={{ title: 'Ritual' }} />
         <Stack.Screen name="settings" options={{ title: 'Settings' }} />
+        <Stack.Screen name="insights" options={{ title: 'Insights' }} />
       </Stack>
     </SQLiteProvider>
   );
