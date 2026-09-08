@@ -1,23 +1,41 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, radii, spacing, typography } from '../constants/theme';
 import { RitualCard } from '../components/RitualCard';
 import { useRitualsStore } from '../lib/store';
+import { hasCompletedOnboarding } from '../lib/onboarding';
 
 export default function HomeScreen() {
   const db = useSQLiteContext();
   const router = useRouter();
   const { rituals, loading, loadAll, completeToday } = useRitualsStore();
+  const [onboardingStatus, setOnboardingStatus] = useState<'checking' | 'needed' | 'done'>(
+    'checking'
+  );
+
+  useEffect(() => {
+    hasCompletedOnboarding().then((completed) => {
+      setOnboardingStatus(completed ? 'done' : 'needed');
+    });
+  }, []);
 
   useFocusEffect(
     useCallback(() => {
       loadAll(db);
     }, [db, loadAll])
   );
+
+  if (onboardingStatus === 'checking') {
+    return <View style={styles.container} />;
+  }
+
+  if (onboardingStatus === 'needed') {
+    return <Redirect href="/onboarding" />;
+  }
 
   const todayLabel = new Date().toLocaleDateString(undefined, {
     weekday: 'long',
