@@ -13,6 +13,7 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 - **Icons:** never hardcode emoji glyphs in source. Use `@expo/vector-icons` (`Ionicons`) with names from `RITUAL_ICONS` in `constants/theme.ts`.
 - **State/data:** Zustand store (`lib/store.ts`) is the only thing components read from; it wraps the SQLite data layer (`lib/db.ts`). Don't query the DB directly from components.
 - **Dates:** ritual completions are stored as local `YYYY-MM-DD` strings (`lib/date.ts`), not timestamps — keeps streak math (`lib/streak.ts`) simple and timezone-stable.
+- **Backend:** Supabase (Postgres + Auth) for accounts/cross-device sync — see `supabase/` (schema in `supabase/migrations/`) and `lib/supabase.ts` (client). Local SQLite remains the source of truth for offline use; sync logic is not wired up yet (tracked as a follow-up).
 
 ## Before committing
 
