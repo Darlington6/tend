@@ -1,4 +1,5 @@
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { colors, radii, spacing, typography } from '../../constants/theme';
@@ -37,7 +38,7 @@ export default function RitualDetailScreen() {
   return (
     <View style={styles.container}>
       <View style={[styles.iconWrap, { borderColor: ritual.color }]}>
-        <Text style={styles.icon}>{ritual.icon}</Text>
+        <Ionicons name={ritual.icon} size={32} color={ritual.color} />
       </View>
       <Text style={typography.title}>{ritual.name}</Text>
       <Text style={[typography.caption, styles.timeLabel]}>{ritual.time_of_day}</Text>
@@ -73,9 +74,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: spacing.md,
     backgroundColor: colors.surface,
-  },
-  icon: {
-    fontSize: 32,
   },
   timeLabel: {
     textTransform: 'capitalize',

@@ -1,11 +1,12 @@
 import type { SQLiteDatabase } from 'expo-sqlite';
+import type { RitualIconName } from '../constants/theme';
 
 export type TimeOfDay = 'morning' | 'evening' | 'anytime';
 
 export type Ritual = {
   id: number;
   name: string;
-  icon: string;
+  icon: RitualIconName;
   color: string;
   time_of_day: TimeOfDay;
   sort_order: number;
