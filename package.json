@@ -33,7 +33,7 @@
     "eslint-config-expo": "~57.0.2",
     "husky": "^9.1.7",
     "supabase": "^2.117.0",
-    "typescript": "~6.0.3"
+    "typescript": "~7.0.2"
   },
   "scripts": {
     "start": "expo start",
