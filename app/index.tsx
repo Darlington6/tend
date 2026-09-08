@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,7 +16,7 @@ export default function HomeScreen() {
   useFocusEffect(
     useCallback(() => {
       loadAll(db);
-    }, [db])
+    }, [db, loadAll])
   );
 
   const todayLabel = new Date().toLocaleDateString(undefined, {
@@ -33,7 +34,12 @@ export default function HomeScreen() {
 
       {!loading && rituals.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyIcon}>🔥</Text>
+          <Ionicons
+            name="flame-outline"
+            size={40}
+            color={colors.ember}
+            style={styles.emptyIcon}
+          />
           <Text style={[typography.heading, styles.emptyTitle]}>No rituals yet</Text>
           <Text style={[typography.caption, styles.emptyBody]}>
             Add a small morning or evening ritual to start tending your first streak.
@@ -82,7 +88,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.xl,
   },
   emptyIcon: {
-    fontSize: 40,
     marginBottom: spacing.md,
   },
   emptyTitle: {

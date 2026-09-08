@@ -1,12 +1,20 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSQLiteContext } from 'expo-sqlite';
-import { colors, FREE_RITUAL_LIMIT, radii, RITUAL_COLORS, spacing, typography } from '../../constants/theme';
+import {
+  colors,
+  FREE_RITUAL_LIMIT,
+  radii,
+  RITUAL_COLORS,
+  RITUAL_ICONS,
+  spacing,
+  typography,
+} from '../../constants/theme';
 import { useRitualsStore } from '../../lib/store';
 import type { TimeOfDay } from '../../lib/db';
 
-const ICON_OPTIONS = ['🔥', '🌅', '🌙', '💧', '🧘', '📖', '🏃', '✍️', '🥗', '🧹', '🎯', '🌱'];
 const TIME_OPTIONS: { value: TimeOfDay; label: string }[] = [
   { value: 'morning', label: 'Morning' },
   { value: 'evening', label: 'Evening' },
@@ -19,7 +27,7 @@ export default function NewRitualScreen() {
   const { rituals, addRitual } = useRitualsStore();
 
   const [name, setName] = useState('');
-  const [icon, setIcon] = useState(ICON_OPTIONS[0]);
+  const [icon, setIcon] = useState(RITUAL_ICONS[0]);
   const [color, setColor] = useState(RITUAL_COLORS[0]);
   const [timeOfDay, setTimeOfDay] = useState<TimeOfDay>('anytime');
   const [saving, setSaving] = useState(false);
@@ -37,8 +45,13 @@ export default function NewRitualScreen() {
   if (atFreeLimit) {
     return (
       <View style={styles.upgradeContainer}>
-        <Text style={styles.upgradeIcon}>✨</Text>
-        <Text style={typography.heading}>You've reached the free limit</Text>
+        <Ionicons
+          name="sparkles-outline"
+          size={40}
+          color={colors.ember}
+          style={styles.upgradeIcon}
+        />
+        <Text style={typography.heading}>You&rsquo;ve reached the free limit</Text>
         <Text style={[typography.caption, styles.upgradeBody]}>
           Tend+ unlocks unlimited rituals, deeper insights, and custom themes.
           {'\n\n'}(Upgrade flow coming soon.)
@@ -61,13 +74,17 @@ export default function NewRitualScreen() {
 
       <Text style={[typography.caption, styles.sectionLabel]}>Icon</Text>
       <View style={styles.row}>
-        {ICON_OPTIONS.map((option) => (
+        {RITUAL_ICONS.map((option) => (
           <Pressable
             key={option}
             onPress={() => setIcon(option)}
             style={[styles.iconChoice, icon === option && styles.iconChoiceSelected]}
           >
-            <Text style={styles.iconChoiceText}>{option}</Text>
+            <Ionicons
+              name={option}
+              size={20}
+              color={icon === option ? colors.ember : colors.textMuted}
+            />
           </Pressable>
         ))}
       </View>
@@ -155,9 +172,6 @@ const styles = StyleSheet.create({
     borderColor: colors.ember,
     backgroundColor: colors.surfaceMuted,
   },
-  iconChoiceText: {
-    fontSize: 20,
-  },
   colorChoice: {
     width: 36,
     height: 36,
@@ -207,7 +221,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   upgradeIcon: {
-    fontSize: 40,
     marginBottom: spacing.md,
   },
   upgradeBody: {
